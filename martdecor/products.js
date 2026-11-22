@@ -1,10 +1,10 @@
 const categories = [
-  {id: 'wallpaper', name: 'Обои', image: 0, catalog: 'oboi'},
-  {id: 'fresco', name: 'Фрески', image: 3, catalog: 'freski'},
-  {id: 'panels', name: 'Стеновые панели', image: 1, catalog: 'stenovye-paneli'},
-  {id: 'stone', name: 'Каменный шпон', image: 2, catalog: 'kamennyy-shpon'},
-  {id: 'finishes', name: 'Краски и штукатурки', image: 5, catalog: 'dekorativnye-kraski-i-shtukaturki'},
-  {id: 'molding', name: 'Молдинги', image: 4, catalog: 'moldingi'}
+  {id: 'wallpaper', name: 'Обои', catalog: 'oboi'},
+  {id: 'fresco', name: 'Фрески', catalog: 'freski'},
+  {id: 'panels', name: 'Стеновые панели', catalog: 'stenovye-paneli'},
+  {id: 'stone', name: 'Каменный шпон', catalog: 'kamennyy-shpon'},
+  {id: 'finishes', name: 'Краски и штукатурки', catalog: 'dekorativnye-kraski-i-shtukaturki'},
+  {id: 'molding', name: 'Молдинги', catalog: 'moldingi'}
 ];
 
 const products = [
@@ -16,7 +16,7 @@ const products = [
   },
   {
     id: 'stenovaya-panel-emperado-dark', category: 'panels', brand: 'MARMARO',
-    name: 'Emperado Dark', price: 3150, unit: 'м²', image: 2,
+    name: 'Emperado Dark', price: 3150, unit: 'м²',
     spec: 'Стеновая панель · Россия',
     description: 'Панель с рисунком мрамора в кофейной гамме и контрастными прожилками.'
   },
@@ -34,7 +34,7 @@ const products = [
   },
   {
     id: 'dekorativnaya-shtukaturka-lanors-solo-strukturnaya-15-kg-2-mm', category: 'finishes', brand: 'Lanors',
-    name: 'Соло «Структурная» 2 мм', price: 4423, unit: 'упаковка', image: 3,
+    name: 'Соло «Структурная» 2 мм', price: 4423, unit: 'упаковка',
     spec: 'Декоративная штукатурка · 15 кг',
     description: 'Камешковая штукатурка для интерьерной и фасадной отделки. Зерно 2 мм.'
   },
@@ -46,13 +46,13 @@ const products = [
   },
   {
     id: 'oboi-sirpi-missoni-home-6-20061', category: 'wallpaper', brand: 'Sirpi',
-    name: 'Missoni Home 6 20061', code: '20061', price: 19500, unit: 'рулон', image: 5,
+    name: 'Missoni Home 6 20061', code: '20061', price: 19500, unit: 'рулон',
     spec: 'Рулон 10,05 × 1 м · раппорт 64 см',
     description: 'Обои коллекции Missoni Home 6, Италия. Учитывайте раппорт при расчёте количества рулонов.'
   },
   {
     id: 'stenovaya-panel-port-laurent', category: 'panels', brand: 'MARMARO',
-    name: 'Port Laurent', price: 3150, unit: 'м²', image: 2,
+    name: 'Port Laurent', price: 3150, unit: 'м²',
     spec: 'Стеновая панель · Россия',
     description: 'Стеновая панель для классических и современных интерьеров.'
   },
@@ -70,7 +70,7 @@ const products = [
   },
   {
     id: 'dekorativnaya-shtukaturka-lanors-solo-strukturnaya-15-kg-1-5-mm', category: 'finishes', brand: 'Lanors',
-    name: 'Соло «Структурная» 1,5 мм', price: 4423, unit: 'упаковка', image: 3,
+    name: 'Соло «Структурная» 1,5 мм', price: 4423, unit: 'упаковка',
     spec: 'Декоративная штукатурка · 15 кг',
     description: 'Камешковая штукатурка для интерьерной и фасадной отделки. Зерно 1,5 мм.'
   },

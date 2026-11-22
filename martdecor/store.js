@@ -1,12 +1,10 @@
 const shop = 'https://martdecor.online';
-const salonEmail = 'salon@martdecor.ru';
 const storageKey = 'martdecor-store-selection-v2';
 const byId = id => document.getElementById(id);
 const categoryById = new Map(categories.map(category => [category.id, category]));
 const productById = new Map(products.map(product => [product.id, product]));
 const format = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 2 });
-const image = product => `assets/texture-${product.image ?? categoryById.get(product.category).image}.webp`;
-const categoryImage = category => `assets/texture-${category.image}.webp`;
+const image = product => `assets/catalog/${product.id}.webp`;
 const money = amount => `${format.format(amount)} ₽`;
 const price = product => `от ${money(product.price)}${product.unit ? ' / ' + product.unit : ''}`;
 const productUrl = product => `${shop}/product/${product.id}/`;
@@ -51,6 +49,9 @@ function announce(message) {
 
 function syncActions() {
   byId('saved-count').textContent = saved.size;
+  byId('project-selection').textContent = saved.size
+    ? `Позиций из вашей подборки в запросе: ${saved.size}`
+    : 'Если добавите материалы в подборку, они попадут в запрос.';
   byId('compare-count').textContent = compared.size;
   byId('compare-open').disabled = compared.size < 2;
   for (const button of document.querySelectorAll('[data-action="save"]')) {
@@ -89,7 +90,7 @@ function renderCatalog() {
   byId('results').innerHTML = visible.length ? visible.map(product => {
     const kind = categoryById.get(product.category).name;
     return `<article class="product-card">
-      <button class="product-photo" type="button" data-action="detail" data-product="${product.id}" aria-label="Открыть карточку ${product.name.replaceAll('"', '&quot;')}"><img src="${image(product)}" width="492" height="492" alt="" loading="lazy"></button>
+      <button class="product-photo" type="button" data-action="detail" data-product="${product.id}" aria-label="Открыть карточку ${product.name.replaceAll('"', '&quot;')}"><img src="${image(product)}" width="600" height="600" alt="" loading="lazy"></button>
       <div class="product-body">
         <p class="product-meta">${kind}${product.brand ? ' · ' + product.brand : ''}</p>
         <h3><button class="product-title" type="button" data-action="detail" data-product="${product.id}">${product.name}</button></h3>
@@ -116,14 +117,15 @@ function showPanel(title, html) {
 
 function showProduct(product) {
   showPanel(product.name, `<div class="detail-layout">
-    <figure class="detail-picture"><img src="${image(product)}" alt="" width="492" height="492"><figcaption>Иллюстрация категории. Точная фактура — в магазине.</figcaption></figure>
+    <figure class="detail-picture"><img src="${image(product)}" alt="" width="600" height="600"><figcaption>Изображение из каталога МАРТдекор</figcaption></figure>
     <div class="detail-copy"><p class="product-meta">${categoryById.get(product.category).name}${product.brand ? ' · ' + product.brand : ''}</p>
     <p>${product.description}</p><p><strong>Характеристики.</strong> ${product.spec}</p>
     ${product.code ? `<p>Артикул: ${product.code}</p>` : ''}
     <p class="product-price">${price(product)}</p>
-    <p class="hint">Цену, наличие и условия доставки уточняйте в магазине.</p>
+    <p class="hint">Наличие, образец и срок уточняйте у менеджера. <a href="${shop}/dostavka-i-oplata/">Доставка и оплата</a></p>
     <a class="button primary" href="${productUrl(product)}">Открыть в магазине</a>
     <button class="button secondary" type="button" data-action="save" data-product="${product.id}"></button>
+    <a class="text-link" data-action="to-project" href="#project">Подобрать материалы с менеджером</a>
     <button class="text-link" type="button" data-action="compare" data-product="${product.id}"></button></div></div>`);
 }
 
@@ -175,29 +177,29 @@ function showSelection() {
   updateTotal();
 }
 
-function showDraft(data) {
+function projectRequestUrl(form) {
+  const data = new FormData(form);
+  const name = data.get('name').trim();
+  const notes = data.get('notes').trim();
   const items = [...saved].map(([id, count]) => {
     const product = productById.get(id);
     const unit = { рулон: 'рул.', упаковка: 'уп.', 'м²': 'м²' }[product.unit] || 'поз. (единицу уточнить)';
-    return `• ${product.name} — ${format.format(count)} ${unit}\n  ${productUrl(product)}`;
+    const label = [product.brand, product.name].filter(Boolean).join(' ');
+    return `• ${label} — ${format.format(count)} ${unit}`;
   });
   const lines = [
     'Здравствуйте! Помогите, пожалуйста, подобрать материалы для стен.',
+    name ? `Имя: ${name}` : '',
     `Помещение: ${data.get('room')}`,
     data.get('area') ? `Площадь стен: ${data.get('area')} м²` : '',
     data.get('budget') ? `Бюджет на отделку: ${data.get('budget')} ₽` : '',
-    data.get('notes').trim() ? `Пожелания: ${data.get('notes').trim()}` : '',
+    notes ? `Пожелания: ${notes}` : '',
     items.length ? '\nМоя подборка:\n' + items.join('\n') : '',
     '\nПрошу уточнить наличие, количество и стоимость материалов.'
   ].filter(Boolean).join('\n');
-  const subject = encodeURIComponent('Подбор материалов для стен');
-  showPanel('Черновик письма', `<div class="form-draft">
-    <p>Проверьте текст. В почте можно приложить фото или дизайн-проект.</p>
-    <label>Текст письма<textarea id="draft-text" rows="8" readonly></textarea></label>
-    <div class="actions"><a class="button primary" href="mailto:${salonEmail}?subject=${subject}&amp;body=${encodeURIComponent(lines)}">Открыть в почте</a>
-    <button class="button secondary" type="button" data-action="copy">Скопировать текст</button></div>
-    <p class="hint" id="copy-status" role="status">Письмо ещё не отправлено.</p></div>`);
-  byId('draft-text').value = lines;
+  const url = new URL(form.action);
+  url.searchParams.set('text', lines);
+  return url;
 }
 
 function resetFilters() {
@@ -206,7 +208,7 @@ function resetFilters() {
 }
 
 byId('category-cards').innerHTML = categories.map(category =>
-  `<button class="category-card" type="button" data-category="${category.id}" aria-pressed="false"><img src="${categoryImage(category)}" width="492" height="492" alt=""><span class="category-name">${category.name}</span></button>`
+  `<button class="category-card" type="button" data-category="${category.id}" aria-pressed="false"><img src="${image(products.find(product => product.category === category.id))}" width="600" height="600" alt="" loading="lazy"><span class="category-name">${category.name}</span></button>`
 ).join('');
 for (const category of categories) controls.category.add(new Option(category.name, category.id));
 const brands = [...new Set(products.map(product => product.brand).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ru'));
@@ -229,8 +231,9 @@ byId('open-list').addEventListener('click', showSelection);
 byId('compare-open').addEventListener('click', showComparison);
 byId('project-form').addEventListener('submit', event => {
   event.preventDefault();
-  showDraft(new FormData(event.currentTarget));
+  window.location.assign(projectRequestUrl(event.currentTarget).href);
 });
+byId('send-project').disabled = false;
 panel.querySelector('.panel-close').addEventListener('click', () => panel.close());
 panelBody.addEventListener('change', event => {
   const id = event.target.dataset.quantity;
@@ -242,7 +245,7 @@ panelBody.addEventListener('change', event => {
   updateTotal();
 });
 
-document.addEventListener('click', async event => {
+document.addEventListener('click', event => {
   const button = event.target.closest('[data-action]');
   if (!button) return;
   const action = button.dataset.action;
@@ -272,15 +275,6 @@ document.addEventListener('click', async event => {
     showSelection();
   } else if (action === 'to-project' || action === 'to-catalog') {
     panel.close();
-  } else if (action === 'copy') {
-    const draft = byId('draft-text');
-    try {
-      await navigator.clipboard.writeText(draft.value);
-      byId('copy-status').textContent = 'Текст скопирован.';
-    } catch {
-      draft.select();
-      byId('copy-status').textContent = 'Текст выделен для копирования.';
-    }
   }
 });
 
