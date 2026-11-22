@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Каталог отделочных материалов МАРТдекор и подбор для проектов в Ростове-на-Дону">
+<title>МАРТдекор — магазин отделочных материалов</title>
+<link rel="stylesheet" href="style.css">
+<script src="products.js" defer></script>
+<script src="store.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">К&nbsp;содержанию</a>
+<div class="location"><div class="wrap location-line"><a href="#visit">Ростов-на-Дону <span>·</span> пр. Михаила Нагибина, 30Л</a><a href="tel:+79094200420">+7&nbsp;909 420-04-20</a></div></div>
+<header class="site-header">
+  <div class="wrap header-line">
+    <a class="logo" aria-label="МАРТдекор, главная" href="./"><span class="logo-symbol" aria-hidden="true">M</span>МАРТ<span class="logo-minor">декор</span></a>
+    <nav aria-label="Главное меню"><a href="#catalog">Каталог</a><a href="#project">Подбор по&nbsp;проекту</a><a href="#visit">Салон</a></nav>
+    <button id="open-list" class="list-button" type="button">Моя подборка <span id="saved-count" aria-label="Позиций в подборке">0</span></button>
+  </div>
+</header>
+<main id="main">
+<section class="wrap hero" aria-labelledby="hero-title">
+  <div class="hero-content">
+    <p class="kicker">САЛОН ОТДЕЛОЧНЫХ МАТЕРИАЛОВ</p>
+    <h1 id="hero-title">От&nbsp;фактуры<br>до&nbsp;интерьера</h1>
+    <p>Обои, фрески, панели, краска и&nbsp;декор для&nbsp;стен. Выберите материал в&nbsp;каталоге или&nbsp;соберите подборку для&nbsp;обсуждения с&nbsp;салоном.</p>
+    <div class="actions"><a class="button white" href="#catalog">Перейти в&nbsp;каталог</a><a class="button inverse" href="#project">Подобрать по&nbsp;проекту</a></div>
+  </div>
+  <figure class="hero-image"><img src="assets/interior.webp" alt="Светлая гостиная с оливковой штукатуркой и деревянными рейками" width="1440" height="960" fetchpriority="high"><figcaption>Иллюстрация для&nbsp;прототипа</figcaption></figure>
+</section>
+<section class="wrap categories-section" aria-labelledby="categories-title">
+  <div class="section-heading"><h2 id="categories-title">Материалы для&nbsp;стен</h2><a class="text-link" href="https://martdecor.online/shop/">Весь&nbsp;ассортимент салона</a></div>
+  <div id="category-cards" class="category-cards"></div>
+</section>
+<section id="catalog" class="catalog-section" aria-labelledby="catalog-title"><div class="wrap">
+  <div class="section-heading"><div><h2 id="catalog-title">Каталог</h2><p>Выборка из&nbsp;действующего магазина. Цены указаны «от», фактуры на&nbsp;фото иллюстративные.</p></div></div>
+  <div class="catalog-layout">
+    <form id="filter-form" class="filters" aria-label="Фильтры каталога">
+      <div class="filter-title"><h3>Фильтры</h3><button class="text-link" type="reset">Сбросить</button></div>
+      <label>Категория<select id="category" name="category"><option value="">Все&nbsp;категории</option></select></label>
+      <label>Бренд<select id="brand" name="brand"><option value="">Все&nbsp;бренды</option></select></label>
+      <label>Цена до,&nbsp;₽<input id="max-price" name="maxPrice" type="number" min="0" step="1" inputmode="numeric" placeholder="Любая"></label>
+    </form>
+    <div class="catalog-main">
+      <div class="controls">
+        <label class="search-wrap"><span class="visually-hidden">Поиск по&nbsp;названию, бренду или&nbsp;артикулу</span><input id="query" type="search" placeholder="Поиск по названию, бренду или артикулу"></label>
+        <label><span class="visually-hidden">Сортировка</span><select id="sort"><option value="">По&nbsp;умолчанию</option><option value="low">Сначала дешевле</option><option value="high">Сначала дороже</option></select></label>
+      </div>
+      <div class="catalog-count"><span id="result-count" role="status" aria-live="polite"></span><button id="compare-open" class="text-link" type="button" disabled>Сравнить (<span id="compare-count">0</span>)</button></div>
+      <div id="results" class="product-grid"></div>
+      <p class="more-catalog"><a id="full-category" class="text-link" href="https://martdecor.online/shop/">Весь&nbsp;каталог магазина</a></p>
+      <noscript><p>Для&nbsp;поиска и&nbsp;фильтров включите JavaScript или <a href="https://martdecor.online/shop/">откройте действующий магазин</a>.</p></noscript>
+    </div>
+  </div>
+</div></section>
+<section id="project" class="wrap project-section" aria-labelledby="project-title">
+  <div class="project-intro">
+    <p class="kicker">КОМПЛЕКТАЦИЯ ПРОЕКТА</p><h2 id="project-title">Соберите отделку<br>для&nbsp;вашей комнаты</h2>
+    <p>Укажите задачу и&nbsp;площадь, добавьте материалы в&nbsp;подборку. Салон поможет сопоставить образцы, уточнить расход, наличие и&nbsp;условия доставки.</p>
+    <p>Есть дизайн-проект или&nbsp;фото? Их&nbsp;можно приложить в&nbsp;письме салону.</p>
+    <a class="text-link" href="https://martdecor.online/dizayneram/">Условия для&nbsp;дизайнеров</a>
+  </div>
+  <form id="project-form" class="project-form">
+    <h3>Запрос на&nbsp;подбор</h3>
+    <label>Что&nbsp;оформляете?<select name="room"><option>Гостиная</option><option>Спальня</option><option>Кухня</option><option>Прихожая</option><option>Коммерческое помещение</option><option>Другое</option></select></label>
+    <div class="dimension-row">
+      <label>Площадь стен, м²<input name="area" type="number" min="0.01" max="100000" step="any" inputmode="decimal" placeholder="Например, 24"></label>
+      <label>Бюджет на&nbsp;отделку, ₽<input name="budget" type="number" min="0" max="1000000000" step="1" inputmode="numeric" placeholder="Необязательно"></label>
+    </div>
+    <label>Что&nbsp;важно учесть?<textarea name="notes" maxlength="500" rows="3" placeholder="Материалы, оттенок, сроки"></textarea></label>
+    <button class="button primary" type="submit">Подготовить письмо</button>
+    <p class="hint">Сайт подготовит текст письма, который можно проверить перед&nbsp;отправкой.</p>
+  </form>
+</section>
+<section id="visit" class="visit"><div class="wrap visit-grid"><div><p class="kicker">ШОУРУМ В&nbsp;РОСТОВЕ-НА-ДОНУ</p><h2>Посмотрите образцы вживую</h2><p>пр. Михаила Нагибина, 30Л<br>Пн–пт 10:00–19:00 · сб–вс 10:00–17:00</p><div class="actions"><a class="button dark" href="https://yandex.ru/maps/org/martdekor/192527386082/">Построить маршрут</a><a class="button secondary" href="tel:+79094200420">Позвонить в&nbsp;салон</a></div></div>
+<div class="faq"><h3>Перед&nbsp;визитом</h3><details><summary>Можно приехать с&nbsp;фото комнаты?</summary><p>Да.&nbsp;В&nbsp;салоне подбирают материалы по&nbsp;фото, планировке или&nbsp;дизайн-проекту.</p></details><details><summary>Как&nbsp;узнать цену и&nbsp;наличие?</summary><p>Текущую цену, доступность и&nbsp;срок поставки уточняйте в&nbsp;карточке действующего магазина или&nbsp;в&nbsp;салоне.</p></details><details><summary>Можно подобрать оттенок по&nbsp;образцу?</summary><p>Салон делает колеровку красок и&nbsp;декоративных покрытий. Возможность подобрать конкретный оттенок уточнит менеджер.</p></details></div></div></section>
+</main>
+<footer class="wrap footer"><strong>МАРТдекор</strong><p>Демонстрационный прототип · заказы оформляются на действующем сайте МАРТдекор</p><a href="analysis.html">Анализ магазина и конкурентов</a><a href="https://martdecor.online/contact-us/">Контакты салона</a></footer>
+<div id="notifications" class="visually-hidden" role="status" aria-live="polite"></div>
+<dialog id="panel" aria-labelledby="panel-title"><div class="panel-bar"><h2 id="panel-title"></h2><button class="panel-close" type="button" aria-label="Закрыть">×</button></div><div id="panel-body"></div></dialog>
+</body>
+</html>
